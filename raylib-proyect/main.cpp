@@ -2,84 +2,44 @@
 
 int main()
 {
-    const int screenWidth = 1000;
-    const int screenHeight = 500;
+    const int screenWidth = 900;
+    const int screenHeight = 600;
 
-    InitWindow(screenWidth, screenHeight, "FPS, velocidad y rebote");
+    InitWindow(screenWidth, screenHeight, "Ventana y primitivas");
     SetTargetFPS(60);
-
-    float radio = 30.0f;
-    Vector2 posicion = {120.0f, screenHeight / 2.0f};
-
-    // Rapidez: siempre positiva
-    float rapidez = 250.0f;
-
-    // Dirección: +1 derecha, -1 izquierda
-    int direccion = 1;
-
-    float rapidezMin = 50.0f;
-    float rapidezMax = 800.0f;
-    float incremento = 50.0f;
 
     while (!WindowShouldClose())
     {
-        float dt = GetFrameTime();
-
-        // Cambiar solo la rapidez, no la dirección
-        if (IsKeyPressed(KEY_UP))
-        {
-            rapidez += incremento;
-            if (rapidez > rapidezMax)
-                rapidez = rapidezMax;
-        }
-
-        if (IsKeyPressed(KEY_DOWN))
-        {
-            rapidez -= incremento;
-            if (rapidez < rapidezMin)
-                rapidez = rapidezMin;
-        }
-
-        // Velocidad efectiva
-        float velocidadX = direccion * rapidez;
-
-        // Actualizar posición
-        posicion.x += velocidadX * dt;
-
-        // Rebote en borde derecho
-        if (posicion.x >= screenWidth - radio)
-        {
-            posicion.x = screenWidth - radio;
-            direccion = -1;
-        }
-
-        // Rebote en borde izquierdo
-        if (posicion.x <= radio)
-        {
-            posicion.x = radio;
-            direccion = 1;
-        }
-
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        DrawText("Circulo en movimiento sobre el eje X", 290, 20, 28, DARKBLUE);
-        DrawText("UP: aumentar rapidez", 40, 70, 22, DARKGREEN);
-        DrawText("DOWN: disminuir rapidez", 40, 100, 22, MAROON);
+        DrawText("Practica 01: Ventana y primitivas en raylib", 180, 20, 28, DARKBLUE);
+        DrawText("Objetivo: reconocer el ciclo Init -> Update -> Draw", 180, 55, 20, GRAY);
 
-        DrawLine(0, screenHeight / 2, screenWidth, screenHeight / 2, LIGHTGRAY);
+        // Sol
+        DrawCircle(760, 110, 45, GOLD);
 
-        DrawCircleV(posicion, radio, ORANGE);
+        // Casa
+        DrawRectangle(270, 280, 220, 170, BEIGE);
+        DrawTriangle((Vector2){250, 280}, (Vector2){380, 180}, (Vector2){510, 280}, BROWN);
+        DrawRectangle(350, 365, 55, 85, DARKBROWN);
+        DrawRectangle(300, 320, 45, 45, SKYBLUE);
+        DrawRectangle(415, 320, 45, 45, SKYBLUE);
 
-        DrawText(TextFormat("FPS actuales: %d", GetFPS()), 40, 160, 24, BLACK);
-        DrawText(TextFormat("dt: %.4f segundos", dt), 40, 195, 24, BLACK);
-        DrawText(TextFormat("Rapidez: %.2f pixeles/segundo", rapidez), 40, 230, 24, BLACK);
-        DrawText(TextFormat("Direccion: %s", (direccion == 1 ? "Derecha" : "Izquierda")), 40, 265, 24, BLACK);
-        DrawText(TextFormat("Velocidad X: %.2f", velocidadX), 40, 300, 24, BLACK);
-        DrawText(TextFormat("Posicion X: %.2f", posicion.x), 40, 335, 24, BLACK);
+        // Suelo
+        DrawRectangle(0, 450, screenWidth, 150, DARKGREEN);
 
-        DrawText("Ecuacion usada: x = x + (direccion * rapidez) * dt", 40, 390, 24, DARKBLUE);
-        DrawText("Las flechas solo cambian la rapidez; el rumbo cambia solo al rebotar.", 40, 425, 24, DARKBLUE);
+        // Arbol simple
+        DrawRectangle(120, 340, 28, 110, BROWN);
+        DrawCircle(134, 300, 45, GREEN);
+        DrawCircle(100, 330, 35, GREEN);
+        DrawCircle(168, 330, 35, GREEN);
+
+        // Ejes de referencia
+        DrawLine(40, 520, 250, 520, LIGHTGRAY);
+        DrawLine(40, 520, 40, 350, LIGHTGRAY);
+        DrawText("x", 255, 512, 18, DARKGRAY);
+        DrawText("y", 28, 340, 18, DARKGRAY);
 
         EndDrawing();
     }
